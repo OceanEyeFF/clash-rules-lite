@@ -1,0 +1,63 @@
+# Clash Rules Lite - 配置模板
+# 使用方法：复制此配置到你的 Clash 配置文件中，替换 proxy-groups 和 rules 部分
+
+# ====================================
+# Rule Providers 配置
+# ====================================
+# 将以下内容添加到你的 Clash 配置文件中
+
+rule-providers:
+  Proxy:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/OceanEyeFF/clash-rules-lite@release/proxy-rules.txt"
+    path: ./providers/rule-proxy.yaml
+    interval: 86400
+
+  Microsoft:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/OceanEyeFF/clash-rules-lite@release/microsoft-rules.txt"
+    path: ./providers/rule-microsoft.yaml
+    interval: 86400
+
+  Blacklist:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/OceanEyeFF/clash-rules-lite@release/blacklist-rules.txt"
+    path: ./providers/rule-blacklist.yaml
+    interval: 86400
+
+  Direct:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/OceanEyeFF/clash-rules-lite@release/direct-rules.txt"
+    path: ./providers/rule-direct.yaml
+    interval: 86400
+
+# ====================================
+# 规则配置
+# ====================================
+# 将以下规则添加到你的 rules 部分（在其他规则之前）
+
+rules:
+  - RULE-SET,Blacklist,🛑 全球拦截
+  - RULE-SET,Proxy,🔰 节点选择
+  - RULE-SET,Microsoft,Ⓜ️ 微软服务
+  - RULE-SET,Direct,🎯 全球直连
+  - GEOIP,CN,🎯 全球直连
+  - MATCH,🐟 漏网之鱼
+
+# ====================================
+# 注意事项
+# ====================================
+# 1. 确保你的 proxy-groups 中包含以下组：
+#    - 🔰 节点选择（或 Proxy）
+#    - 🎯 全球直连（或 Domestic/DIRECT）
+#    - 🛑 全球拦截（或 REJECT）
+#    - Ⓜ️ 微软服务（可选）
+#    - 🐟 漏网之鱼（可选）
+#
+# 2. 如果你的组名不同，请修改上面规则中的组名
+#
+# 3. 更新规则后，在 Clash 中点击 "更新规则集" 并重启 Clash
